@@ -1,0 +1,16 @@
+// The package contract is the sole integration surface.
+import gramide.package_api
+import self.lexer
+import self.symbols
+import self.table
+
+let VERSION = "0.1.0"
+fn prepare_lexer() -> package_api.Tokenizer = {
+  let prepared = lexer.prepare()
+  (source, recovering) => lexer.scan_prepared(source, prepared, recovering)
+}
+fn definition() -> package_api.Definition = package_api.Definition {
+  id: "java", package_name: "gramide-java", version: VERSION, extensions: [".java"],
+  capabilities: ["tokens", "parse", "outline", "symbols", "tags", "map"],
+  lexer: () => prepare_lexer(), grammar: () => table.compiled(), sep: ".", symbols: symbols.symbol_rules()
+}

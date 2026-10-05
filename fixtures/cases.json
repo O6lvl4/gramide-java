@@ -1,0 +1,64 @@
+{
+  "good": {
+    "valid/statements.java": [
+      "Worker",
+      "Worker.count",
+      "Worker.limit",
+      "Worker.café",
+      "Worker.mark",
+      "Worker.block",
+      "Worker.Worker",
+      "Worker.Worker",
+      "Worker.run",
+      "Label",
+      "Label.value",
+      "Position",
+      "Position.Position",
+      "東京",
+      "東京.挨拶"
+    ],
+    "valid/model.java": [
+      "Box",
+      "Box.values",
+      "Box.Box",
+      "Box.first",
+      "Box.map",
+      "Box.sum",
+      "Box.Nested",
+      "Box.Nested.value",
+      "View",
+      "View.first",
+      "View.empty",
+      "Pair",
+      "Color",
+      "Color.RED",
+      "Color.GREEN",
+      "Color.BLUE",
+      "Color.label"
+    ],
+    "valid/generics.java": [
+      "Repository",
+      "Repository.read",
+      "Repository.write",
+      "Generic",
+      "Generic.choose",
+      "Generic.make",
+      "Generic.run",
+      "Generic.type",
+      "Generic.number",
+      "Generic.floating"
+    ]
+  },
+  "bad": [
+    "invalid/binary_float.java",
+    "invalid/broken_body.java",
+    "invalid/broken_method.java",
+    "invalid/generic_gap.java",
+    "invalid/missing_expression.java",
+    "invalid/missing_semicolon.java",
+    "invalid/try_without_handler.java",
+    "invalid/unclosed_class.java",
+    "invalid/unclosed_string.java",
+    "invalid/unicode_symbol.java"
+  ]
+}
