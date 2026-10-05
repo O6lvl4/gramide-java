@@ -82,3 +82,23 @@ test "nested declarations use complete byte ranges and method owners" {
   assert(list.contains(outline, "L2-2 class Outer"))
   assert(list.contains(outline, "    L2-2 method Inner.Value"))
 }
+
+test "qualified enclosing this expressions retain grammar and table parity" {
+  let source = "// Qualified enclosing-instance expressions preserve the original UTF-8 bytes.\nclass Outer {\n    int value;\n    void clear() { value = 0; }\n    class Inner {\n        void reset() { Outer.this.clear(); }\n        Outer owner() { return Outer.this; }\n        int read() { return Outer.this.value; }\n        class Deep {\n            Inner owner() { return Outer.Inner.this; }\n        }\n    }\n}\nclass 外側 {\n    class 内側 { 外側 owner() { return 外側.this; } }\n}\n"
+  let tokens = lexer.scan(source, false)!
+  let dynamic = parser.parse(grammar.rules(), bytes.from_string(source), tokens)!
+  let compiled = parser.parse_with(table.compiled(), bytes.from_string(source), tokens)!
+  assert_eq(tree.sexp(dynamic.root, dynamic.names), tree.sexp(compiled.root, compiled.names))
+}
+
+test "qualified this does not accept an unfinished member" {
+  assert(result.is_err(grammar.parse_source("class Broken { void run() { Outer.this.; } }")))
+  assert(result.is_err(grammar.parse_source("class this {}")))
+}
+
+test "qualified this only follows a qualified type name" {
+  assert(result.is_err(grammar.parse_source("class Broken { Object value() { return 1 .this; } }\n")))
+  assert(result.is_err(grammar.parse_source("class Broken { Object value() { return make().this; } }\n")))
+  assert(result.is_err(grammar.parse_source("class Broken { Object value() { return (Outer).this; } }\n")))
+  assert(result.is_err(grammar.parse_source("class Broken { Object value() { return Outer.<String>this; } }\n")))
+}
