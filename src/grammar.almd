@@ -167,7 +167,15 @@ fn language_rules() -> List[(String, parser.Rule)] = [
     wrap("synchronized_statement", seq([lit("synchronized"), parens(r("expression")), r("block")])),
     wrap("assert_statement", seq([lit("assert"), r("expression"), opt(seq([lit(":"), r("expression")])), lit(";")]))
   ])),
-  ("primary_extra", seq([r("type_arguments"), r("name"), r("arguments")])),
+  ("primary_extra", alt([
+    seq([r("type_arguments"), r("name"), r("arguments")]),
+    // Only TypeName.this is a qualified enclosing instance. It is not a
+    // general suffix on values, calls, parenthesized expressions or <T>.
+    // Look ahead before selecting this branch; any speculative nodes are
+    // discarded on the ordinary identifier path.
+    seq([ahead(seq([r("qualified_name"), lit("."), lit("this")])),
+      wrap("qualified_this_expression", seq([r("qualified_name"), lit("."), keep("this")]))])
+  ])),
   ("new_base_type", alt([wrap("primitive_type", keeps(["boolean", "byte", "short", "int", "long", "char", "float", "double"])),
     wrap("type_name", seq([r("qualified_name"), opt(alt([r("type_arguments"), seq([lit("<"), lit(">")])]))]))])),
   ("new_body", opt(r("class_body"))),

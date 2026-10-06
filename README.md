@@ -27,7 +27,8 @@ is useful for navigation, not evidence that the source is valid Java.
 - Precedence-aware arithmetic/boolean/bitwise/comparison expressions,
   assignment, ternaries, shifts, prefix/postfix operators, calls, field and
   index access, casts, lambdas, method references, constructor/array creation,
-  diamond creation and anonymous class bodies
+  diamond creation, anonymous class bodies and qualified enclosing-instance
+  expressions such as `Outer.this.clear()`
 - UTF-8 identifiers and original byte ranges, non-nesting comments, ordinary
   strings, character literals, text blocks, decimal/binary/octal/hex numbers,
   decimal and hexadecimal floating-point forms
@@ -59,13 +60,14 @@ is useful for navigation, not evidence that the source is valid Java.
   Record components are parameters, not synthesized fields/accessors. No
   implicit members are invented. Anonymous-class methods have no generated
   anonymous-owner identity and remain under the enclosing named type
-- No javac differential oracle or representative-repository acceptance rate
-  is claimed. The checked-in corpus proves the listed examples, not complete
-  Java conformance
+- A javac parse-only oracle checks the positive and malformed fixtures. It
+  does not type-check source or prove representative-repository acceptance.
+  The checked-in corpus proves these examples, not complete Java conformance
 
 ## Build and verify
 
-Run from this package directory with Almide 0.62.0 or a compatible compiler:
+Run from this package directory with Almide 0.62.0 or a compatible compiler
+and Java 17+ with the `jdk.compiler` module for the fixture oracle:
 
 ```sh
 almide build cli/main.almd -o gramide_java

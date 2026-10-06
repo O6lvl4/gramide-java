@@ -47,6 +47,20 @@
       "Generic.type",
       "Generic.number",
       "Generic.floating"
+    ],
+    "valid/qualified_this.java": [
+      "Outer",
+      "Outer.value",
+      "Outer.clear",
+      "Outer.Inner",
+      "Outer.Inner.reset",
+      "Outer.Inner.owner",
+      "Outer.Inner.read",
+      "Outer.Inner.Deep",
+      "Outer.Inner.Deep.owner",
+      "外側",
+      "外側.内側",
+      "外側.内側.owner"
     ]
   },
   "bad": [
@@ -59,6 +73,11 @@
     "invalid/try_without_handler.java",
     "invalid/unclosed_class.java",
     "invalid/unclosed_string.java",
-    "invalid/unicode_symbol.java"
+    "invalid/unicode_symbol.java",
+    "invalid/qualified_this_missing_member.java",
+    "invalid/qualified_this_after_number.java",
+    "invalid/qualified_this_after_call.java",
+    "invalid/qualified_this_after_parentheses.java",
+    "invalid/qualified_this_after_type_arguments.java"
   ]
 }
